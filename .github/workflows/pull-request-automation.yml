@@ -1,0 +1,39 @@
+name: Automatic pull request review
+
+on: [pull_request]
+
+jobs:
+  automate-pullrequest-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get specific changed files
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v18.7
+        with:
+          files: |
+            WCLRanks/Data/*.lua
+
+      - name: Run step if any of the listed files above change
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files listed above has changed."
+          
+      - name: Checkout
+        uses: actions/checkout@v3
+          
+      - name: Luacheck linter
+        uses: lunarmodules/luacheck@v0
+        with:
+            args: WCLRanks/Data/*.lua -o 011
+            
+      - name: Lua files registered in xml and all files in xml exists
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/.github/files_in_xml.sh
+          "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
+          
+      - name: Approve pull request
+        uses: andrewmusgrave/automatic-pull-request-review@0.0.5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          event: APPROVE
+          body: 'Automatically Approved Update'

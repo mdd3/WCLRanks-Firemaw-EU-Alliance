@@ -1,0 +1,9 @@
+{
+	"servers": [
+		{
+			"name":"Firemaw",
+			"region":"EU",
+			"faction": "Alliance"
+		}
+	]
+}

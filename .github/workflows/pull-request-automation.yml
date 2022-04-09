@@ -19,19 +19,19 @@ jobs:
             WCLRanks/Data/WCLRanks.xml
 
       - name: Luacheck linter
-        if: ${{ steps.changed-files-specific.outputs.only_changed == 'true' && steps.changed-files-specific.outputs.only_deleted == 'true' }}
+        if: ${{ steps.changed-files-specific.outputs.only_changed == 'true' || steps.changed-files-specific.outputs.only_deleted == 'true' }}
         uses: lunarmodules/luacheck@v0
         with:
             args: WCLRanks/Data/*.lua -o 011
             
       - name: Lua files registered in xml and all files in xml exists
-        if: ${{ steps.changed-files-specific.outputs.only_changed == 'true' && steps.changed-files-specific.outputs.only_deleted == 'true' }}
+        if: ${{ steps.changed-files-specific.outputs.only_changed == 'true' || steps.changed-files-specific.outputs.only_deleted == 'true' }}
         run: |
           chmod +x "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
           "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
           
       - name: Approve pull request
-        if: ${{ steps.changed-files-specific.outputs.only_changed == 'true' && steps.changed-files-specific.outputs.only_deleted == 'true' }}
+        if: ${{ steps.changed-files-specific.outputs.only_changed == 'true' || steps.changed-files-specific.outputs.only_deleted == 'true' }}
         uses: andrewmusgrave/automatic-pull-request-review@0.0.5
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

@@ -5,7 +5,11 @@ on: [pull_request]
 jobs:
   automate-pullrequest-review:
     runs-on: ubuntu-latest
-    steps:
+    steps:    
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+        
       - name: Get specific changed files
         id: changed-files-specific
         uses: tj-actions/changed-files@v18.7
@@ -18,9 +22,6 @@ jobs:
         if: steps.changed-files-specific.outputs.only_changed == 'true'
         run: |
           echo "One or more files listed above has changed."
-          
-      - name: Checkout
-        uses: actions/checkout@v3
           
       - name: Luacheck linter
         uses: lunarmodules/luacheck@v0

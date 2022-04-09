@@ -18,22 +18,20 @@ jobs:
             WCLRanks/Data/*.lua
             WCLRanks/Data/WCLRanks.xml
 
-      - name: Run step if any of the listed files above change
-        if: steps.changed-files-specific.outputs.only_changed == 'true'
-        run: |
-          echo "One or more files listed above has changed."
-          
       - name: Luacheck linter
+        if: steps.changed-files-specific.outputs.only_changed == 'true'
         uses: lunarmodules/luacheck@v0
         with:
             args: WCLRanks/Data/*.lua -o 011
             
       - name: Lua files registered in xml and all files in xml exists
+        if: steps.changed-files-specific.outputs.only_changed == 'true'
         run: |
           chmod +x "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
           "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
           
       - name: Approve pull request
+        if: steps.changed-files-specific.outputs.only_changed == 'true'
         uses: andrewmusgrave/automatic-pull-request-review@0.0.5
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

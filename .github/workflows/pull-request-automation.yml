@@ -12,9 +12,10 @@ jobs:
         with:
           files: |
             WCLRanks/Data/*.lua
+            WCLRanks/Data/WCLRanks.xml
 
       - name: Run step if any of the listed files above change
-        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        if: steps.changed-files-specific.outputs.only_changed == 'true'
         run: |
           echo "One or more files listed above has changed."
           
@@ -28,7 +29,7 @@ jobs:
             
       - name: Lua files registered in xml and all files in xml exists
         run: |
-          chmod +x "${GITHUB_WORKSPACE}/.github/files_in_xml.sh
+          chmod +x "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
           "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
           
       - name: Approve pull request

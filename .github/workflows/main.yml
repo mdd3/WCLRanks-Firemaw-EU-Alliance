@@ -23,4 +23,11 @@ jobs:
         run: echo "::set-output name=nexttag::$(echo ${{ steps.previoustag.outputs.tag }} | sed -E 's/.\d+$/.${{ steps.date.outputs.date }}/g')"
       - name: Bump Version
         run: |
-          echo ${{ steps.nexttag.outputs.nexttag }}
+          git tag ${{ steps.nexttag.outputs.nexttag }}
+          git commit --allow-empty -m "Bump version"
+
+      - name: Push tag
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.nexttag.outputs.nexttag }}

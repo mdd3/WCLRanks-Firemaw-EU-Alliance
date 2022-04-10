@@ -23,4 +23,4 @@ jobs:
         run: echo "::set-output name=nexttag::$(echo ${{ steps.previoustag.outputs.tag }} | sed -E 's/.\d+$/.${{ steps.date.outputs.date }}/g')"
       - name: Bump Version
         run: |
-          echo ${{ nexttag.outputs.nexttag }}
+          echo ${{ steps.nexttag.outputs.nexttag }}

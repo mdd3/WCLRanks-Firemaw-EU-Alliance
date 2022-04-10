@@ -2,7 +2,7 @@ name: Daily Release
 
 on:  
   schedule:
-    - cron: '0 * * * *'
+    - cron: '30 * * * *'
 jobs:
   Trigger-Package-and-Release-Workflow:
     runs-on: ubuntu-latest
@@ -20,7 +20,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
       - name: Make next tag
         id: nexttag
-        run: echo "::set-output name=nexttag::$(echo ${{ steps.previoustag.outputs.tag }} | sed -E 's/.\d+\s*$/.${{ steps.date.outputs.date }}/g')"
+        run: echo "::set-output name=nexttag::$(echo '${{ steps.previoustag.outputs.tag }}' | sed -E 's/.\d+\s*$/.${{ steps.date.outputs.date }}/g')"
       - name: Bump Version
         run: |
           git config user.name "GitHub Actions Bot"
@@ -32,4 +32,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: origin ${{ steps.nexttag.outputs.nexttag }}
+          branch: main ${{ steps.nexttag.outputs.nexttag }}

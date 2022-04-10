@@ -2,7 +2,7 @@ name: Daily Release
 
 on:  
   schedule:
-    - cron: '5 * * * *'
+    - cron: '27 * * * *'
 jobs:
   Trigger-Package-and-Release-Workflow:
     runs-on: ubuntu-latest
@@ -10,6 +10,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.PAT }}
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
@@ -27,9 +28,4 @@ jobs:
           git config user.email "<>"
           git tag ${{ steps.nexttag.outputs.nexttag }}
           git commit --allow-empty -m "Bump version"
-
-      - name: Push tag
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main ${{ steps.nexttag.outputs.nexttag }}
+          git push origin ${{ steps.nexttag.outputs.nexttag }}

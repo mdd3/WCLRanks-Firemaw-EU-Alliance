@@ -20,7 +20,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
       - name: Make next tag
         id: nexttag
-        run: echo "::set-output name=nexttag::$(echo ${{ steps.previoustag.outputs.tag }} | sed -E 's/.\d+$/.${{ steps.date.outputs.date }}/g')"
+        run: echo "::set-output name=nexttag::$(echo ${{ steps.previoustag.outputs.tag }} | sed -E 's/.\d+\s*$/.${{ steps.date.outputs.date }}/g')"
       - name: Bump Version
         run: |
           git config user.name "GitHub Actions Bot"

@@ -18,4 +18,4 @@ jobs:
       - name: Package and release for Burning Crusade Classic
         uses: BigWigsMods/packager@v2
         with:
-          args: -t WCLRanks -g bcc -w 0
+          args: -g bcc -w 0

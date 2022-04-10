@@ -24,8 +24,8 @@ jobs:
         run: echo "::set-output name=nexttag::$(echo '${{ steps.previoustag.outputs.tag }}' | sed -r 's/\.[0-9]+\s*$/.${{ steps.date.outputs.date }}/g')"
       - name: Bump Version
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
+          git config user.name "mdd3"
+          git config user.email "mdd3@users.noreply.github.com"
           git tag ${{ steps.nexttag.outputs.nexttag }}
           git commit --allow-empty -m "Bump version"
           git push origin ${{ steps.nexttag.outputs.nexttag }}

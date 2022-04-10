@@ -2,7 +2,7 @@ name: Daily Release
 
 on:  
   schedule:
-    - cron: '25 9 * * *'
+    - cron: '27 7 * * *'
 jobs:
   Trigger-Package-and-Release-Workflow:
     runs-on: ubuntu-latest

@@ -1,0 +1,21 @@
+name: Package and release
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clone project
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Package and release for Burning Crusade Classic
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -t WCLRanks -g bcc -w 0

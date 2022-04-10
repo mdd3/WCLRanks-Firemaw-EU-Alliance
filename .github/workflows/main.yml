@@ -2,7 +2,7 @@ name: Daily Release
 
 on:  
   schedule:
-    - cron: '45 * * * *'
+    - cron: '0 * * * *'
 jobs:
   Trigger-Package-and-Release-Workflow:
     runs-on: ubuntu-latest
@@ -32,4 +32,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ steps.nexttag.outputs.nexttag }}
+          branch: origin ${{ steps.nexttag.outputs.nexttag }}

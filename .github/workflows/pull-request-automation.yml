@@ -15,14 +15,14 @@ jobs:
         uses: tj-actions/changed-files@v18.7
         with:
           files: |
-            WCLRanks/Data/*.lua
-            WCLRanks/Data/WCLRanks.xml
+            Data/*.lua
+            Data/WCLRanks.xml
 
       - name: Luacheck linter
         if: ${{ steps.changed-files-specific.outputs.only_changed == 'true' || steps.changed-files-specific.outputs.only_deleted == 'true' }}
         uses: lunarmodules/luacheck@v0
         with:
-            args: WCLRanks/Data/*.lua -o 011
+            args: Data/*.lua -o 011
             
       - name: Lua files registered in xml and all files in xml exists
         if: ${{ steps.changed-files-specific.outputs.only_changed == 'true' || steps.changed-files-specific.outputs.only_deleted == 'true' }}

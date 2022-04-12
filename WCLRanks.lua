@@ -53,6 +53,9 @@ local function expand(name)
         end,
         ["C"] = function()
             return "|cFF666666"
+        end,
+		["Y"] = function()
+            return "|cFFFFFF00"
         end
     }
 

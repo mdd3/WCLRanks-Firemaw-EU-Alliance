@@ -1,0 +1,48 @@
+name: Automatic pull request review
+
+on: [pull_request]
+
+jobs:
+  automate-pullrequest-review:
+    runs-on: ubuntu-latest
+    steps:    
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+        
+      - name: Get specific changed files
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v18.7
+        with:
+          files: |
+            Data/*.lua
+            Data/WCLRanks.xml
+
+      - name: Luacheck linter
+        if: ${{ steps.changed-files-specific.outputs.only_modified == 'true' }}
+        uses: lunarmodules/luacheck@v0
+        with:
+            args: Data/*.lua -o 011
+            
+      - name: Lua files registered in xml and all files in xml exists
+        if: ${{ steps.changed-files-specific.outputs.only_modified == 'true' }}
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
+          "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
+          
+      - name: Validate ranking data
+        if: ${{ steps.changed-files-specific.outputs.only_modified == 'true' }}
+        run: |
+          for file in ${{ steps.changed-files.outputs.changed_files }}; do
+            if [[ $file == *.lua ]]; then
+              python ${GITHUB_WORKSPACE}/.github/validate.py $file
+            fi
+          done
+          
+      - name: Approve pull request
+        if: ${{ steps.changed-files-specific.outputs.only_modified == 'true' }}
+        uses: andrewmusgrave/automatic-pull-request-review@0.0.5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          event: APPROVE
+          body: 'Automatically Approved Update'

@@ -1,0 +1,31 @@
+name: Daily Release
+
+on:  
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  Trigger-Package-and-Release-Workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 1.2.0
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: Make next tag
+        id: nexttag
+        run: echo "::set-output name=nexttag::$(echo '${{ steps.previoustag.outputs.tag }}' | sed -r 's/\.[0-9]+\s*$/.${{ steps.date.outputs.date }}/g')"
+      - name: Bump Version
+        run: |
+          git config user.name "mdd3"
+          git config user.email "mdd3@users.noreply.github.com"
+          git tag ${{ steps.nexttag.outputs.nexttag }}
+          git commit --allow-empty -m "Bump version"
+          git push origin ${{ steps.nexttag.outputs.nexttag }}

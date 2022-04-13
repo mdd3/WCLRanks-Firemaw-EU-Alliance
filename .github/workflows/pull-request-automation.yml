@@ -30,6 +30,15 @@ jobs:
           chmod +x "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
           "${GITHUB_WORKSPACE}/.github/files_in_xml.sh"
           
+      - name: Validate ranking data
+        if: ${{ steps.changed-files-specific.outputs.only_modified == 'true' }}
+        run: |
+          for file in ${{ steps.changed-files.outputs.changed_files }}; do
+            if [[ $file == *.lua ]]; then
+              python ${GITHUB_WORKSPACE}/.github/validate.py $file
+            fi
+          done
+          
       - name: Approve pull request
         if: ${{ steps.changed-files-specific.outputs.only_modified == 'true' }}
         uses: andrewmusgrave/automatic-pull-request-review@0.0.5

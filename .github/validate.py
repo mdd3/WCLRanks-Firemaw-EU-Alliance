@@ -64,12 +64,9 @@ def percent(chrs):
 
 def percent_color(chrs):
     s = ''.join(chrs)
-    print(s)
     for m in re.finditer(r'(.)(\d+\.?\d*)%', s):
         percent = float(m.group(2))
         color_code = m.group(1)
-        print(percent, color_code)
-        print(color_code == 'L')
         if percent == 100 and color_code != 'A':
             exit(1)
         elif percent < 100 and percent >= 99 and color_code != 'S':
@@ -88,21 +85,14 @@ def percent_color(chrs):
             exit(1)
     return True
 
-print(99.0 >= 99)
 with open(sys.argv[1]) as f:
     s = f.read()
     for l in re.finditer(r'= "(.*)",?\n', s):
         chrs = remove_escaped(list(l.group(1)))
-        print("All escaped strings are good.")
         correct_nls(chrs)
-        print("All new lines are in the right place.")
         all_allowed(chrs)
-        print("All characters in the string are allowed.")
         progress(chrs)
-        print("The progress of all zones are correct")
         percent(chrs)
-        print("The percentages are correct")
         percent_color(chrs)
-        print("The coloring of the parses is correct.")
 exit(0)
 

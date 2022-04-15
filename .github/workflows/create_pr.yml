@@ -15,7 +15,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
           PULL_REQUEST_BRANCH: "main"
       - name: enable-auto-merge
-      - uses: peter-evans/enable-pull-request-automerge@v2
+        uses: peter-evans/enable-pull-request-automerge@v2
         with:
           token: ${{ secrets.PAT }}
           pull-request-number: ${{ steps.pr.outputs.pull_request_number }}

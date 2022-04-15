@@ -1,0 +1,21 @@
+name: Pull Request on Branch Push
+on:
+  push:
+    branches-ignore:
+      - main
+jobs:
+  auto-pull-request:
+    name: PullRequestAction
+    runs-on: ubuntu-latest
+    steps:
+      - name: pull-request-action
+        id: pr
+        uses: vsoch/pull-request-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          PULL_REQUEST_BRANCH: "main"
+      - name: enable-auto-merge
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.PAT }}
+          pull-request-number: ${{ steps.pr.outputs.pull_request_number }}

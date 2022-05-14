@@ -24,6 +24,9 @@ local function expand(name)
         ["H"] = function()
             return "BT/Hyjal"
         end,
+        ["S"] = function()
+            return "Sunwell Plateau"
+        end,
         ["B"] = function()
             return " Server Rank No."
         end,

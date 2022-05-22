@@ -24,7 +24,7 @@ local function expand(name)
         ["H"] = function()
             return "BT/Hyjal"
         end,
-        ["S"] = function()
+        ["W"] = function()
             return "Sunwell Plateau"
         end,
         ["B"] = function()

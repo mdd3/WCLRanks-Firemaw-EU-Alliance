@@ -202,6 +202,7 @@ Addon_EventFrame:SetScript("OnEvent",
 end)
 
 
+--[=[
 local Chat_EventFrame = CreateFrame("Frame")
 Chat_EventFrame:RegisterEvent("CHAT_MSG_SYSTEM")
 Chat_EventFrame:SetScript("OnEvent",
@@ -218,6 +219,7 @@ Chat_EventFrame:SetScript("OnEvent",
 		end
 	end
 end)
+]=]
 
 
 -- a dictionary of format to match entity

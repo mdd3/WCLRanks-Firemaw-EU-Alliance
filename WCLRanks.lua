@@ -121,6 +121,7 @@ local function load_data(tname)
 	return nil
 end
 
+--[=[
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(chatFrame, link, text, button)
 if (IsModifiedClick("CHATLINK")) then
   if (link and button) then
@@ -143,6 +144,7 @@ if (IsModifiedClick("CHATLINK")) then
 	end
 end
 end)
+]=]
 
 local function printInfo(self)
 	print("|cFFFFFF00WCL-" .. self.value)
@@ -202,7 +204,6 @@ Addon_EventFrame:SetScript("OnEvent",
 end)
 
 
---[=[
 local Chat_EventFrame = CreateFrame("Frame")
 Chat_EventFrame:RegisterEvent("CHAT_MSG_SYSTEM")
 Chat_EventFrame:SetScript("OnEvent",
@@ -214,12 +215,11 @@ Chat_EventFrame:SetScript("OnEvent",
 		dstr_array = load_data(name)
 		if dstr_array then
 			for i, dstr in ipairs(dstr_array) do
-				print("|cFFFFFF00WCL " .. name .. ":" .. dstr )
+				print("|cFFFFFF00WCL " .. name .. ": " .. dstr )
 			end
 		end
 	end
 end)
-]=]
 
 
 -- a dictionary of format to match entity
